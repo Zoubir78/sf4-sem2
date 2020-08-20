@@ -19,32 +19,16 @@ class RecordRepository extends ServiceEntityRepository
         parent::__construct($registry, Record::class);
     }
 
-    // /**
-    //  * @return Record[] Returns an array of Record objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * Nouveautés: albums sortis il y a moins d'un mois
+     */
+    public function findNews()
     {
-        return $this->createQueryBuilder('r')
-            ->andWhere('r.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('r.id', 'ASC')
-            ->setMaxResults(10)
+        return $this->createQueryBuilder('r')       // r = alias de Record
+            ->where('r.releasedAt >= :last_month')
+            ->setParameter('last_month', new \DateTime('-1 month'))
+            ->orderBy('r.releasedAt', 'DESC')
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Record
-    {
-        return $this->createQueryBuilder('r')
-            ->andWhere('r.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }
